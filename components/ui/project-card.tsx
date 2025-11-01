@@ -2,15 +2,13 @@ import { ArrowUpRight } from "lucide-react";
 import React from "react";
 
 type ProjectCardProps = {
-    image?: string;
-    video?: string;
     title: string;
     type?: string;
     href: string;
     idx: number;
 };
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ image, idx, video, title, type, href }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ idx, title, type, href }) => {
     return (
       <a
         href={href}

@@ -2,8 +2,8 @@
 
 import { Marquee } from "@/components/ui/marquee";
 import ProjectCard from "@/components/ui/project-card";
-import { Briefcase, BriefcaseBusiness, Gavel } from "lucide-react";
-import { AnimatePresence, color, motion } from "motion/react";
+import { Briefcase, Gavel } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { useState, useRef, useLayoutEffect, useEffect } from "react";
 
 const TEXTS = ["fullstack dev", "design engineer", "gamer", "student"];
@@ -130,6 +130,58 @@ const PROJECTS = [
   },
 ];
 
+const AnimatedText = ({
+  text,
+  className = "",
+  delay = 0,
+}: {
+  text: string;
+  className?: string;
+  delay?: number;
+}) => {
+  const letterParent = {
+    hidden: {},
+    show: {
+      transition: {
+        delayChildren: delay - 0.1,
+      },
+    },
+  } as const;
+
+  const letterChild = {
+    hidden: { opacity: 0.2, filter: "blur(10px)" },
+    show: {
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: { ease: [0.48, 0.23, 0.32, 0.98] },
+    },
+  } as const;
+
+  return (
+    <motion.span
+      variants={letterParent}
+      initial="hidden"
+      animate="show"
+      className={className}
+      style={{ display: "inline-block" }}
+    >
+      {text.split("").map((char, i) =>
+        char === " " ? (
+          <span key={i}>&nbsp;</span>
+        ) : (
+          <motion.span
+            key={i}
+            variants={letterChild}
+            style={{ display: "inline-block" }}
+          >
+            {char}
+          </motion.span>
+        )
+      )}
+    </motion.span>
+  );
+};
+
 export default function Home() {
   const [index, setIndex] = useState(0);
   const [textWidth, setTextWidth] = useState(0);
@@ -157,34 +209,23 @@ export default function Home() {
         maskImage:
           "linear-gradient(to bottom, transparent 0%, black 15%, black 100%)",
       }}
-      // border-x-[1px] border-[#727272]/30
       className="px-1 z-100 overflow-auto scrollbar-hide border-dashed py-[10%] h-[100vh] relative"
     >
-      {/* <div className="absolute left-50 top-0 w-[70vw] h-[100vh]" style={{
-        WebkitMaskImage:
-        "linear-gradient(to top, transparent 0%, black 15%, black 100%)",
-      maskImage:
-        "linear-gradient(to top, transparent 0%, black 15%, black 100%)",
-      zIndex: 10
-      }}>
-        <img
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to top, transparent 0%, black 15%, black 100%)",
-            maskImage:
-              "linear-gradient(to top, transparent 0%, black 15%, black 100%)",
-            zIndex: 10
-          }}
-          className=" -rotate-90 left-70"
-          src="https://framerusercontent.com/images/922LPrLT3JS7JXQbJxraBeoo8I.png"
-          alt="image"
-        />
-      </div> */}
-      <div className="text-[60px] leading-[63px] tracking-[-4.8px] font-medium">
-        I'm <span className="text-[#727272]">Shyam</span> (shy),
+      <motion.div
+        initial={{ opacity: 0.2, filter: "blur(10px)" }}
+        animate={{ opacity: 1, filter: "blur(0px)" }}
+        className="text-[60px] leading-[63px] tracking-[-4.8px] font-medium"
+      >
+        <AnimatedText text={"I'm "} delay={0} />
+        <span className="text-[#727272]">
+          <AnimatedText text="Shyam" delay={0.1} />
+        </span>
+        <AnimatedText text={" (shy),"} delay={0.2} />
         <br />
         <div className="flex items-center">
-          <span className="mr-4">a</span>
+          <span className="mr-4">
+            <AnimatedText text={"a"} delay={0} />
+          </span>
           <div>
             <motion.button
               className="italic font-[geist-unique]"
@@ -245,9 +286,12 @@ export default function Home() {
             </motion.button>
           </div>
         </div>
-        based in <span className="text-[#727272]">delhi</span> (india).
-      </div>
-      {/* <p className="mt-5 max-w-92 text-[20px] leading-[19.8px] tracking-[-0.7px] ">fullstack engineer with 1 year of experience in building web apps. confident in taking projects from 0 to 100</p> */}
+        <AnimatedText text={"based in "} delay={0.2} />
+        <span className="text-[#727272]">
+          <AnimatedText text="delhi" delay={0.22} />
+        </span>
+        <AnimatedText text={" (india)."} delay={0.23} />
+      </motion.div>
       <p className="mt-20 flex items-center text-[30px] gap-2 leading-[63px] tracking-[-2px] font-[550] text-[#727272]">
         Skills <Briefcase className="w-9 h-9" />
       </p>
@@ -258,7 +302,7 @@ export default function Home() {
           maskImage:
             "linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 12.5%, rgb(0, 0, 0) 87.5%, rgba(0, 0, 0, 0) 100%)",
         }}
-        className="max-w-[900px] absolute mx-auto"
+        className="absolute left-0 right-0 w-full"
       >
         <Marquee className="[--duration:40s]">
           {SKILLS.map((skill, index) => (
@@ -309,21 +353,20 @@ export default function Home() {
           <ProjectCard
             idx={idx}
             key={proj.title}
-            image={proj.image}
-            video={proj.video}
             title={proj.title}
             type={proj.description}
             href={proj.website || proj.videoDemo || "#"}
           />
         ))}
       </div>
-      <div className="text-[60px] flex items-center gap-2 leading-[63px] tracking-[-4.8px] font-medium mt-20">
+      <div className="lg:text-[60px] md:text-[50px] md:tracking-[-3.8px] text-[40px] tracking-[-2.8px] flex flex-col sm:flex-row sm:items-center gap-2 leading-[63px] lg:tracking-[-4.8px] font-medium mt-20">
         You can reach me on
         <a
           href="https://x.com/ishyverma"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Twitter"
+          className="sm:inline-block hidden"
         >
           <img
             src="/twitter.webp"
@@ -337,6 +380,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
+          className="sm:inline-block hidden"
         >
           <img
             className="aspect-square rounded-xl border-4 border-white h-15 w-15"
@@ -344,8 +388,35 @@ export default function Home() {
             alt=""
           />
         </a>
+        <div className="flex sm:hidden items-center gap-2">
+          <a
+            href="https://x.com/ishyverma"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Twitter"
+          >
+            <img
+              src="/twitter.webp"
+              alt="Twitter"
+              className="w-15 h-15 rounded-xl border-4 border-white"
+            />
+          </a>
+          ,
+          <a
+            href="https://www.linkedin.com/in/ishyverma/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <img
+              className="aspect-square rounded-xl border-4 border-white h-15 w-15"
+              src="https://media.licdn.com/dms/image/v2/C560BAQHaVYd13rRz3A/company-logo_100_100/company-logo_100_100/0/1638831590218/linkedin_logo?e=1763596800&v=beta&t=CvRJL4eoCVeUNgVZ-ZJUIDQGOU7bgfxpdnyUSG53LMQ"
+              alt=""
+            />
+          </a>
+        </div>
       </div>
-      <div className="text-[60px] flex items-center gap-2 tracking-[-4.8px] font-medium leading-[63px]">
+      <div className="lg:text-[60px] md:text-[50px] md:tracking-[-3.8px] text-[40px] tracking-[-2.8px] flex items-center gap-2 leading-[63px] lg:tracking-[-4.8px] font-medium">
         or
         <a
           href="mailto:ishyamver@gmail.com"

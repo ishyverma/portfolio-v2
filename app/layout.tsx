@@ -25,9 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth scrollbar-hide overflow-y-auto px-[20%]`}
       >
-        {children}
+        <img className="w-[100vw] inset-0 absolute h-[100vh] rounded-xl -z-10" src="./6495906face286999a890d16d9f1d15d.jpg" alt="" />
+        {/* <img className="absolute -right-120 -rotate-90 w-[70%]" src="https://framerusercontent.com/images/922LPrLT3JS7JXQbJxraBeoo8I.png" alt="" /> */}
+        <div className="z-10">
+          {children}
+        </div>
       </body>
     </html>
   );

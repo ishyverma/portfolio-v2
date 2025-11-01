@@ -212,19 +212,17 @@ export default function Home() {
       className="px-1 z-100 overflow-auto scrollbar-hide border-dashed py-[10%] h-[100vh] relative"
     >
       <motion.div
-        initial={{ opacity: 0.2, filter: "blur(10px)" }}
-        animate={{ opacity: 1, filter: "blur(0px)" }}
         className="text-[60px] leading-[63px] tracking-[-4.8px] font-medium"
       >
-        <AnimatedText text={"I'm "} delay={0} />
+        I'm{" "}
         <span className="text-[#727272]">
-          <AnimatedText text="Shyam" delay={0.1} />
+          Shyam{" "}
         </span>
-        <AnimatedText text={" (shy),"} delay={0.2} />
+        (shy)
         <br />
         <div className="flex items-center">
           <span className="mr-4">
-            <AnimatedText text={"a"} delay={0} />
+            a
           </span>
           <div>
             <motion.button
@@ -286,11 +284,11 @@ export default function Home() {
             </motion.button>
           </div>
         </div>
-        <AnimatedText text={"based in "} delay={0.2} />
+        based in{" "}
         <span className="text-[#727272]">
-          <AnimatedText text="delhi" delay={0.22} />
+          delhi{" "}
         </span>
-        <AnimatedText text={" (india)."} delay={0.23} />
+        (india).
       </motion.div>
       <p className="mt-20 flex items-center text-[30px] gap-2 leading-[63px] tracking-[-2px] font-[550] text-[#727272]">
         Skills <Briefcase className="w-9 h-9" />

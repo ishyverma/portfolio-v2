@@ -399,7 +399,6 @@ export default function Home() {
               className="w-15 h-15 rounded-xl border-4 border-white"
             />
           </a>
-          ,
           <a
             href="https://www.linkedin.com/in/ishyverma/"
             target="_blank"
